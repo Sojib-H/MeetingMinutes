@@ -12,6 +12,6 @@ namespace Auth.Repository.Model.Entity
 		[Key]
 		public int ProductID { get; set; }
 		public string ProductName { get; set; }
-		public int Unit { get; set; }
+		public string Unit { get; set; }
 	}
 }

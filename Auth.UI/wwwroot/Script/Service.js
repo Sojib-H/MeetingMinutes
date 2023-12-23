@@ -5,11 +5,7 @@ App.factory('Service', ['$http', function ($http) {
     Service.GetAll = function (apiUrl) {
         return $http({
             method: "get",
-            url: URLPrefix + apiUrl,
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": 'Bearer ' + localStorage.getItem('Token')
-            }
+            url: URLPrefix + apiUrl
         });
     }
     Service.GetByID = function (apiUrl, ID) {
@@ -19,10 +15,6 @@ App.factory('Service', ['$http', function ($http) {
         return $http({
             method: "post",
             url: URLPrefix + apiUrl,
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": 'Bearer ' + localStorage.getItem('Token')
-            },
             data: entity
         });
     }

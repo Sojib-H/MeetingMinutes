@@ -1,5 +1,6 @@
 ﻿using Auth.Repository.Model.Entity;
 using Auth.Repository.Repository;
+
 namespace Auth.Repository.UnitOfWork
 {
     public class UnitOfWork : IUnitOfWork
@@ -9,8 +10,8 @@ namespace Auth.Repository.UnitOfWork
         {
             this._context = context;
         }
-        
-        private IRepository<Corporate_Customer_Tbl> _Corporate_Customer_Tbl_Info;
+
+		private IRepository<Corporate_Customer_Tbl> _Corporate_Customer_Tbl_Info;
         public IRepository<Corporate_Customer_Tbl> Corporate_Customer_Tbl_Info
 		{
             get

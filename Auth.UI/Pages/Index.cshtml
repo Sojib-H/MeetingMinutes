@@ -1,220 +1,233 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+	ViewData["Title"] = "Home page";
 }
-<script src="~/Script/Index.js"></script>
-<!------ Include the above in your HEAD tag ---------->
-@* <link href="~/css/Auth.css" rel="stylesheet" /> *@
-<div class="wrapper" ng-controller="IndexCtrl">
-    <div class="card" style="width: 100%;">
-        <div class="card-header">
-            Meeting Minutes
-        </div>
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item">
-                <div>
-                    <div class="form-check">
-                        <label class="form-check-label">
-                            <input type="radio" class="form-check-input" value="" name="optradio">Corporate
-                        </label>
-                        <label class="form-check-label" style="margin-left:50px;">
-                            <input type="radio" class="form-check-input" value="" name="optradio">Individual
-                        </label>
-                    </div>
-                </div>
-            </li>
-            <li class="list-group-item">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                            <label for="CustomerName" class="col-md-4 col-form-label">
-                                Customer Name
-                                <span style="color:red">*</span>
-                            </label>
-                            <div class="col-md-8">
-                                <select class="form-control">
-                                    <option>Default select</option>
-                                </select>
+<div class="wrapper">
+	<div class="card" style="width: 100%;">
+		<div class="card-header">
+			Meeting Minutes
+		</div>
+		<ul class="list-group list-group-flush">
+			<li class="list-group-item">
+				<div>
+					<div class="form-check">
+						<label class="form-check-label">
+							<input type="radio" class="form-check-input" value="0" name="optradio" ng-model="radioCustomerSelect" ng-click="GetCorporateCustomer()">Corporate
+						</label>
+						<label class="form-check-label" style="margin-left:50px;">
+							<input type="radio" class="form-check-input" value="1" name="optradio" ng-model="radioCustomerSelect" ng-click="GetIndividualCustomer()">Individual
+						</label>
+					</div>
+				</div>
+			</li>
+			<li class="list-group-item">
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group row">
+							<label for="CustomerName" class="col-md-4 col-form-label">
+								Customer Name
+								<span style="color:red">*</span>
+							</label>
+							<div class="col-md-8" ng-hide="HideCorporateCustomer">
+								<select type="text" autocomplete="off" class="form-control" id="CustomerName" ng-model="MasterData.CorporateCustomerID" ng-options="c.CustomerID as c.CustomerName for c in CorporateCustomerInfo">
+									<option value="">Select customer name</option>
+								</select>
 
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="Date" class="col-md-4 col-form-label">
-                                Date
-                            </label>
-                            <div class="col-md-8 row">
-                                <div class="col-md-6">
-                                    <input type="date" class="form-control" id="Date" placeholder="Customer name">
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group row">
-                                        <label for="Time" class="col-md-4 col-form-label">
-                                            Time
-                                        </label>
-                                        <div class="col-md-8">
-                                            <input type="text" class="form-control" id="Time" placeholder="9 AM">
-                                        </div>
-                                    </div>
-                                </div>
+							</div>
+							<div class="col-md-8" ng-hide="HideIndividualCustomer">
+								<select type="text" autocomplete="off" class="form-control" id="CustomerName" ng-model="MasterData.IndividualCustomerID" ng-options="c.CustomerID as c.CustomerName for c in IndividualCustomerInfo">
+									<option value="">Select customer name</option>
+								</select>
 
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="MeetingPlace" class="col-md-4 col-form-label">
-                                Meeting Place
-                                <span style="color:red">*</span>
-                            </label>
-                            <div class="col-md-8">
-                                <input type="text" class="form-control" id="MeetingPlace" placeholder="Customer name">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="AttendsFromClientSide" class="col-md-4 col-form-label">
-                                Attends From Client Side
-                                <span style="color:red">*</span>
-                            </label>
-                            <div class="col-md-8">
-                                <textarea class="form-control" id="AttendsFromClientSide" rows="2" placeholder="Present client side"></textarea>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="AttendsFromHostSide" class="col-md-4 col-form-label">
-                                Attends From Host Side
-                                <span style="color:red">*</span>
-                            </label>
-                            <div class="col-md-8">
-                                <textarea class="form-control" id="AttendsFromHostSide" rows="2" placeholder="Present self side"></textarea>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                            <label for="MeetingAgenda" class="col-md-4 col-form-label">
-                                Meeting Agenda
-                                <span style="color:red">*</span>
-                            </label>
-                            <div class="col-md-8">
-                                <textarea class="form-control" id="MeetingAgenda" rows="2" placeholder="Meeting agenda"></textarea>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="MeetingDiscussion" class="col-md-4 col-form-label">
-                                Meeting Discussion
-                                <span style="color:red">*</span>
-                            </label>
-                            <div class="col-md-8">
-                                <textarea class="form-control" id="MeetingDiscussion" rows="2" placeholder="Meeting discussion"></textarea>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="MeetingDecision" class="col-md-4 col-form-label">
-                                Meeting Decision
-                                <span style="color:red">*</span>
-                            </label>
-                            <div class="col-md-8">
-                                <textarea class="form-control" id="MeetingDecision" rows="2" placeholder="Meeting decision"></textarea>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </li>
-        </ul>
-    </div>
-    <div class="card mt-2" style="width: 100%;">
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item">
-                <div class="row">
-                    <div class="col-md-8">
-                        <div class="form-group row">
-                            <label for="InterestedProduct" class="col-md-4 col-form-label">
-                                Interested Product/Service
-                            </label>
-                            <div class="col-md-8">
-                                <select class="form-control">
-                                    <option>Default select</option>
-                                </select>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="Date" class="col-md-4 col-form-label">
+								Date
+							</label>
+							<div class="col-md-8 row">
+								<div class="col-md-6">
+									<input type="date" class="form-control" id="Date" placeholder="Customer name" ng-model="MasterData.Date" required>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group row">
+										<label for="Time" class="col-md-4 col-form-label">
+											Time
+										</label>
+										<div class="col-md-8">
+											<input type="time" id="Time" placeholder="9 AM" ng-model="MasterData.Time" required>
+										</div>
+									</div>
+								</div>
 
-                            </div>
-                        </div>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="MeetingPlace" class="col-md-4 col-form-label">
+								Meeting Place
+								<span style="color:red">*</span>
+							</label>
+							<div class="col-md-8">
+								<input type="text" class="form-control" id="MeetingPlace" placeholder="Meeting place" ng-model="MasterData.MeetingPlace" required>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="AttendsFromClient" class="col-md-4 col-form-label">
+								Attends From Client Side
+								<span style="color:red">*</span>
+							</label>
+							<div class="col-md-8">
+								<textarea class="form-control" id="AttendsFromClient" rows="2" placeholder="Present client side" ng-model="MasterData.AttendsFromClient" required></textarea>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="AttendsFromHost" class="col-md-4 col-form-label">
+								Attends From Host Side
+								<span style="color:red">*</span>
+							</label>
+							<div class="col-md-8">
+								<textarea class="form-control" id="AttendsFromHost" rows="2" placeholder="Present self side" ng-model="MasterData.AttendsFromHost" required></textarea>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group row">
+							<label for="MeetingAgenda" class="col-md-4 col-form-label">
+								Meeting Agenda
+								<span style="color:red">*</span>
+							</label>
+							<div class="col-md-8">
+								<textarea class="form-control" id="MeetingAgenda" rows="2" placeholder="Meeting agenda" ng-model="MasterData.MeetingAgenda" required></textarea>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="MeetingDiscussion" class="col-md-4 col-form-label">
+								Meeting Discussion
+								<span style="color:red">*</span>
+							</label>
+							<div class="col-md-8">
+								<textarea class="form-control" id="MeetingDiscussion" rows="2" placeholder="Meeting discussion" ng-model="MasterData.MeetingDiscussion" required></textarea>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="MeetingDecision" class="col-md-4 col-form-label">
+								Meeting Decision
+								<span style="color:red">*</span>
+							</label>
+							<div class="col-md-8">
+								<textarea class="form-control" id="MeetingDecision" rows="2" placeholder="Meeting decision" ng-model="MasterData.MeetingDecision" required></textarea>
+							</div>
+						</div>
+					</div>
+				</div>
+			</li>
+		</ul>
+	</div>
+	<div class="card mt-2" style="width: 100%;">
+		<ul class="list-group list-group-flush">
+			<li class="list-group-item">
+				<div class="row">
+					<div class="col-md-8">
+						<div class="form-group row">
+							<label for="InterestedProduct" class="col-md-4 col-form-label">
+								Interested Product/Service
+							</label>
+							<div class="col-md-8">
+								<select type="text" autocomplete="off" class="form-control" id="InterestedProduct" ng-model="MasterDetailsObj.ProductID" ng-options="p.ProductID as p.ProductName for p in ProductInfo" ng-change="GetProductInfo()">
+									<option value="">Select product/service interested</option>
+								</select>
 
-                        <div class="form-group row">
-                            <label for="Quantity" class="col-md-4 col-form-label">
-                                Quantity
-                            </label>
-                            <div class="col-md-8 row">
-                                <div class="col-md-6">
-                                    <input type="text" class="form-control" id="Quantity">
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group row">
-                                        <label for="Unit" class="col-md-4 col-form-label">
-                                            Unit
-                                        </label>
-                                        <div class="col-md-8">
-                                            <input type="text" class="form-control" id="Unit" readonly>
-                                        </div>
-                                    </div>
-                                </div>
+							</div>
+						</div>
 
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="" class="col-md-4 col-form-label">
-                                <button style="padding:2px 20px;">
-                                    <i class="fa-solid fa-plus" style="border: 1px solid black;"></i>
-                                    Add
-                                </button>
-                            </label>
-                            <div class="col-md-8">
-                                &nbsp;
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </li>
-        </ul>
-    </div>
-    <div class="card mt-2" style="width: 100%;">
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th scope="col">SL#</th>
-                            <th scope="col">Interested Product/Service</th>
-                            <th scope="col">Quantity</th>
-                            <th scope="col">Unit</th>
-                            <th scope="col">Edit</th>
-                            <th scope="col">Delete</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="text-center">
-                            <td colspan="6">No matching records found</td>
-                        </tr>
-                        <tr hidden>
-                            <td>1</td>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>mdo</td>
-                            <td>mdo</td>
-                            <td>mdo</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </li>
-        </ul>
-    </div>
+						<div class="form-group row">
+							<label for="Quantity" class="col-md-4 col-form-label">
+								Quantity
+							</label>
+							<div class="col-md-8 row">
+								<div class="col-md-6">
+									<input type="text" class="form-control" id="Quantity" ng-model="MasterDetailsObj.Qnty" required>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group row">
+										<label for="Unit" class="col-md-4 col-form-label">
+											Unit
+										</label>
+										<div class="col-md-8">
+											<input type="text" class="form-control" id="Unit" readonly ng-model="Unit" required>
+										</div>
+									</div>
+								</div>
 
-    <div class="Buttons mt-5">
-        <button>
-            <i class="fa-regular fa-floppy-disk"></i>
-            Save
-            </button>
-        <button>
-            <i class="fa-solid fa-arrows-rotate"></i>
-            Refresh
-        </button>
-    </div>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="" class="col-md-4 col-form-label">
+								<button style="padding:2px 20px;" ng-click="SaveDetails($scope.MasterDetailsObj)">
+									<i class="fa-solid fa-plus" style="border: 1px solid black;"></i>
+									{{AddGridButtonText}}
+								</button>
+							</label>
+							<div class="col-md-8">
+								&nbsp;
+							</div>
+						</div>
+					</div>
+				</div>
+			</li>
+		</ul>
+	</div>
+	<div class="card mt-2" style="width: 100%;">
+		<ul class="list-group list-group-flush">
+			<li class="list-group-item">
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th scope="col">SL#</th>
+							<th scope="col">Interested Product/Service</th>
+							<th scope="col">Quantity</th>
+							<th scope="col">Unit</th>
+							<th scope="col">Edit</th>
+							<th scope="col">Delete</th>
+						</tr>
+					</thead>
+					<tbody ng-if="MasterDetailsGridData.length == 0">
+						<tr class="text-center">
+							<td colspan="6">No matching records found</td>
+						</tr>
+					</tbody>
+					<tbody ng-if="MasterDetailsGridData.length > 0">
+						<tr ng-repeat="item in MasterDetailsGridData">
+							<td>{{item.RowId}}</td>
+							<td>{{item.ProductName}}</td>
+							<td>{{item.Qnty}}</td>
+							<td>{{item.Unit}}</td>
+							<td>
+								<button ng-click="editProductInfo(item)">
+									<i class="fas fa-edit"></i>
+								</button>
+							</td>
+							<td>
+								<button ng-click="deleteProductFromList(item)">
+									<i class="fas fa-trash"></i>
+								</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</li>
+		</ul>
+	</div>
+
+	<div class="Buttons mt-5">
+		<button ng-click="Save()">
+			<i class="fa-regular fa-floppy-disk"></i>
+			Save
+		</button>
+		<button ng-click="ClearAll()">
+			<i class="fa-solid fa-arrows-rotate"></i>
+			Refresh
+		</button>
+	</div>
 </div>
